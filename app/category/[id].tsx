@@ -1,0 +1,13 @@
+import { router, useLocalSearchParams } from "expo-router";
+import { ScrollView, Text, View, Pressable } from "react-native";
+import { C, Header, Icon, styles } from "@/components/directory-ui";
+import { useDirectory } from "@/lib/directory-context";
+
+export default function CategoryScreen() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const { categories, specialties, professionals } = useDirectory();
+  const category = categories.find((item) => item.id === id);
+  const list = specialties.filter((item) => item.categoryId === id);
+  if (!category) return <View style={styles.screen}><Header title="التصنيف" showBack /><Text style={{ textAlign: "center", margin: 30, color: C.muted }}>التصنيف غير موجود</Text></View>;
+  return <View style={styles.screen}><ScrollView contentContainerStyle={styles.content}><Header title={category.name} showBack /><View style={{ marginTop: 17, backgroundColor: `${category.color}18`, borderRadius: 23, padding: 18, flexDirection: "row-reverse", alignItems: "center", gap: 13 }}><View style={[{ width: 62, height: 62, borderRadius: 22, alignItems: "center", justifyContent: "center" }, { backgroundColor: category.color }]}><Icon name={category.icon} size={33} color={C.white} /></View><View style={{ flex: 1, alignItems: "flex-end" }}><Text style={{ fontSize: 23, fontWeight: "900", color: C.ink }}>{category.name}</Text><Text style={{ color: C.muted, fontSize: 13, textAlign: "right", marginTop: 4 }}>{category.description}</Text></View></View><Text style={{ textAlign: "right", color: C.ink, fontSize: 19, fontWeight: "900", marginTop: 23, marginBottom: 10 }}>اختار التخصص</Text>{list.map((specialty) => { const count = professionals.filter((p) => p.specialtyId === specialty.id && p.active).length; return <Pressable key={specialty.id} onPress={() => router.push(`/specialty/${specialty.id}` as never)} style={({ pressed }) => [{ backgroundColor: C.white, borderRadius: 18, padding: 16, marginBottom: 10, flexDirection: "row-reverse", alignItems: "center", borderWidth: 1, borderColor: C.border }, pressed && { opacity: .8 }]}><View style={{ width: 46, height: 46, borderRadius: 15, backgroundColor: `${category.color}17`, alignItems: "center", justifyContent: "center" }}><Icon name={specialty.icon} size={25} color={category.color} /></View><View style={{ flex: 1, alignItems: "flex-end", marginRight: 11 }}><Text style={{ color: C.ink, fontSize: 16, fontWeight: "900" }}>{specialty.name}</Text><Text style={{ color: C.muted, fontSize: 12, marginTop: 3 }}>{count} مقدم خدمة</Text></View><Icon name="chevron-left" size={23} color={C.muted} /></Pressable>; })}</ScrollView></View>;
+}

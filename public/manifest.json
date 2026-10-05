@@ -1,0 +1,17 @@
+{
+  "name": "دليل المهن والخدمات بقرية جنزور",
+  "short_name": "دليل جنزور",
+  "description": "دليل محلي للمهنيين والخدمات في قرية جنزور",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#f7fbff",
+  "theme_color": "#0c376f",
+  "icons": [
+    { "src": "/assets/images/icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/assets/images/favicon.png", "sizes": "48x48", "type": "image/png", "purpose": "any" }
+  ]
+}
